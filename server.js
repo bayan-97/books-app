@@ -35,7 +35,7 @@ function Book(booknew) {
     }
     this.title = booknew.volumeInfo.title;
     this.authors = booknew.volumeInfo.authors;
-    this.description = booknew.searchInfo.textSnippet;
+    this.description = booknew.volumeInfo.descriptiont;
 }
 app.use("*", (req, res) => {
     res.status(404).send("NOT FOUND");
