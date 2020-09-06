@@ -9,8 +9,8 @@
 
 <body>
     <main>
-        <form action="./new.ejs" method="post">
-            <input type="text" placeholder="enter a title or author" />
+        <form action="/searches" method="post">
+            <input type="text" placeholder="enter a title or author" name="search" />
             <!-- option for  title -->
             <label for="title">Title
                 <input type="radio" name="title" id="title" value="title" />
@@ -19,6 +19,7 @@
             <label for="author">Author
                 <input type="radio" name="author" id="author" value="author" />
             </label>
+            <button type="submit">submit</button>
         </form>
     </main>
 </body>
