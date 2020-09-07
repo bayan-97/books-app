@@ -12,17 +12,7 @@
 
 
 <body>
-    <header>
-        <nav class="relative">
-            <div class="menu absolute">
-                <i class="fa fa-bars"></i>
-            </div>
-            <h1><a href="./">Best Books!</a></h1>
-            <ul class="text-center">
-                <li><a href="./">Home</a></li>
-                <li><a href="searches/new">Search the Google Books API</a></li>
-            </ul>
-        </nav>
+    <%- include('../layouts/header') %>
     </header>
     <main>
         <section class="title text-center">
@@ -32,7 +22,7 @@
         <section class="books ">
             <% book.forEach(book1 => { %>
             <article class="book1 text-center spacing">
-                <img src=" <%= book1.image %> " alt=" <%= book1.title %> ">
+                <img src=" <%= book1.image_url %> " alt=" <%= book1.title %> ">
                 <h2>
                     <%= book1.title %>
                 </h2>
@@ -40,16 +30,47 @@
                     <%= book1.authors %>
                 </h3>
                 <p class=" description"><%= book1.description %> </p>
-                <!--  document.getElementById('output').innerHTML = html; -->
+                <p><%= book1.isbn %></p>
+                <form action="/addBook" method="post">
+                    <input
+                        type="hidden"
+                        name="title"
+                        value=" <%= book1.title %> "
+                    />
+                    <input
+                        type="hidden"
+                        name="image_url"
+                        value="  <%= book1.image_url %>"
+                    />
+                    <input
+                        type="hidden"
+                        name="author"
+                        value=" <%= book1.authors %> "
+                    />
+                    <input
+                        type="hidden"
+                        name="isbn"
+                        value=" <%= book1.isbn %> "
+                    />
+                    <input
+                            type="hidden"
+                            name="description"
+                            value= "<%=book1.description %> "
+                        />
+                    <textarea
+                        name="description"
+                        id="description"
+                        class="d-none"
+                    > <%=book1.description %> </textarea>
+                    <button type="submit">Add Book</button>
+                </form>
             </article>
             <% }) %>
-            <%=  %>
+          
         </section>
     </main>
 
 </body>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="./js/app.js"></script>
+<%- include('../layouts/scripts') %>
 
 </html>
