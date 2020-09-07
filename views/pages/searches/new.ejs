@@ -10,18 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <nav class="relative">
-            <div class="menu absolute">
-                <i class="fa fa-bars"></i>
-            </div>
-            <h1><a href="./">Best Books!</a></h1>
-            <ul class="text-center">
-                <li><a href="./">Home</a></li>
-                <li><a href="searches/new">Search the Google Books API</a></li>
-            </ul>
-        </nav>
-    </header>
+    <%- include('../layouts/header') %>
     <main>
         <section class="title text-center">
             <h3>Rearch Results</h3>
@@ -40,6 +29,6 @@
     </main>
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="../js/app.js"></script>
+<script src="./js/app.js"></script>
 
 </html>
