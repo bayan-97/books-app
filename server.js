@@ -19,7 +19,7 @@ app.get("/searches/new", (req, res) => {
 
 app.post("/searches", (req, res) => {
     console.log(req.body);
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.search}+${req.body.title}`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.title}:${req.body.search}`;
     // console.log(url);
     superagent.get(url).then((data) => {
         const books = data.body.items.map((book) => new Book(book));
@@ -42,6 +42,9 @@ app.use("*", (req, res) => {
 });
 
 app.use((error, req, res) => {
-    res.status(500).send(error);
+    // res.status(500).send(error);
+ res.render("./pages/error",{errors:error});
+
+    
 });
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
