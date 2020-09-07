@@ -7,6 +7,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static("./public"));
 app.use(express.urlencoded());
 app.set("view engine", "ejs");
+const pg = require('pg');
+
+// const client = new pg.Client(process.env.DATABASE_URL);
 
 // routes
 
@@ -47,4 +50,13 @@ app.use((error, req, res) => {
 
     
 });
-app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
+
+// client.connect()
+// .then(()=>{
+//     app.listen(PORT, () =>{
+//     console.log(`listening on ${PORT}`)
+//     })
+// })
+app.listen(PORT, () =>{
+    console.log(`listening on ${PORT}`)
+    })
