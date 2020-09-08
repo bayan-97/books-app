@@ -8,6 +8,8 @@ app.use(express.static("./public"));
 app.use(express.urlencoded());
 app.set("view engine", "ejs");
 const pg = require('pg');
+const methodOverride = require("method-override");
+app.use(methodOverride("_method"));
 
 const client = new pg.Client(process.env.DATABASE_URL);
 
@@ -44,16 +46,18 @@ app.get("/", (req, res) => {
 
         const { title, image_url, author, isbn, description } = req.body;
         safeValues = [title, image_url, author, isbn, description];
-        const SQL = `INSERT INTO books (title, image_url, author, isbn, description) VALUES ($1,$2,$3,$4,$5)`;
-        client
-            .query(SQL, safeValues)
-            .then((results) => {
-
-                res.render("pages/books/details", { book: req.body });
-            })
-            .catch((err) => {
-                res.redirect("/");
-            });
+        let  SQL = `INSERT INTO books (title, image_url, author, isbn, description) VALUES ($1,$2,$3,$4,$5)`;
+        client.query(SQL, safeValues).then((results) => {
+           let  SQL = `SELECT * FROM books WHERE isbn = $1`;
+            client
+                .query(SQL, [isbn])
+                .then((result) => {
+                    res.redirect(`/books/${result.rows[0].id}`);
+                })
+                .catch((err) => {
+                    res.redirect("/");
+                });
+        });
 
     })
     app.get("/books/:id", (req, res) => {
@@ -64,6 +68,39 @@ app.get("/", (req, res) => {
         res.render("pages/books/details", { book: rows[0] });
     });
     })
+
+
+
+    app.put("/updateBook/:id", (req, res) => {
+        // req.params.id
+        const { title, author,  isbn, description, image_url } = req.body;
+    
+        const safeValues = [
+            title,
+            author,
+            isbn,
+            image_url,
+            description,
+            req.params.id,
+        ];
+        console.log(safeValues);
+    
+        const SQL = `UPDATE books SET title=$1,author=$2,isbn=$3,image_url=$4 , description=$5  where id = $6;`;
+        client.query(SQL, safeValues).then((results) => {
+            console.log(results);
+            res.redirect(`/books/${req.params.id}`);
+        });
+    });
+
+
+    app.delete("/deleteBook/:id", (req, res) => {
+        // req.params.id
+        const SQL = `DELETE FROM books WHERE id=$1`;
+        const value = [req.params.id];
+        client.query(SQL, value).then((results) => {
+            res.redirect("/");
+        });
+    });
 
 
     function Book(booknew) {
